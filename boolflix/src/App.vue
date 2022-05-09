@@ -26,9 +26,11 @@ film trovato:
 
     <main>
       <h1>Titolo:{{titolo}}</h1>
-      <h3>Titolo originale:</h3>
-      <h3>lingua:</h3>
-      <h3>Voto:</h3>
+      <div class="dati" v-for="movie in movies" :key="movie.id">
+        <h3>Titolo originale:{{movie.original_title}}</h3>
+      <h3>lingua:{{movie.original_language}}</h3>
+      <h3>Voto:{{movie.vote_average}}</h3>
+      </div>
     </main>
   </div>
 </template>
@@ -43,16 +45,18 @@ export default {
 
   data() {
     return {
+      Url_API_initial: 'https://api.themoviedb.org/3/search/movie?api_key=feeebc687dcbe2134ac810d7cb75dafe&language=it-IT&query=',
       titolo: '',
-      Url_API: `https://api.themoviedb.org/3/search/movie?api_key=feeebc687dcbe2134ac810d7cb75dafe&language=it-IT&query= + titolo + &page=1&include_adult=false`,
+      Url_API_final: '&page=1&include_adult=false',
+      movies: null,
     }
   },
 
   methods: {
     call_API(){
-      axios.get(this.Url_API).then((response) =>{
-      console.log(response);
-      return response
+      axios.get(this.Url_API_initial + this.titolo + this.Url_API_final).then((response) =>{
+      console.log(response.data.results);
+      this.movies = response.data.results
     })
     }
   },
