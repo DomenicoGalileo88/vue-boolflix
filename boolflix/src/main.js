@@ -22,6 +22,9 @@ Vue.component("font-awesome-icon", FontAwesomeIcon);
 /* bootstrap */
 const bootstrap = require("bootstrap")
 Vue.use(bootstrap)
+/* flags */
+import FlagIcon from "vue-flag-icon";
+Vue.use(FlagIcon);
 
 Vue.config.productionTip = false
 
