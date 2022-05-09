@@ -31,27 +31,77 @@ crub
         <form action="">
           <label for="">Search Film</label>
           <input class="mx-3" type="text" v-model="titolo" />
-          <button @click.prevent="call_API" class="btn btn-danger">
-            Search
+          <button @click.prevent="call_API_movies" class="btn btn-danger">
+            Search Film
+          </button>
+
+          <button @click.prevent="call_API_series" class="btn btn-danger ms-3">
+            Search Serie
           </button>
         </form>
       </div>
     </header>
 
     <main>
-      <div class="dati" v-for="movie in movies" :key="movie.id">
+      <div class="dati_movies" v-for="movie in movies" :key="movie.id">
         <ul>
-          <li>Titolo: {{ movie.title }}</li>
+          <li>Titolo Film: {{ movie.title }}</li>
+
           <li>Titolo originale: {{ movie.original_title }}</li>
-          <li v-if="movie.original_language == 'en'">Lingua: <flag iso="gb"/></li>
-          <li v-else-if="movie.original_language == 'it'">Lingua: <flag iso="it"/></li>
-          <li v-else-if="movie.original_language == 'cn'">Lingua: <flag iso="cn"/></li>
-          <li v-else-if="movie.original_language == 'ja'">Lingua: <flag iso="jp"/></li>
-          <li v-else-if="movie.original_language == 'es'">Lingua: <flag iso="es"/></li>
-          <li v-else-if="movie.original_language == 'fr'">Lingua: <flag iso="fr"/></li>
-          <li v-else-if="movie.original_language == 'de'">Lingua: <flag iso="de"/></li>
+          <li v-if="movie.original_language == 'en'">
+            Lingua: <flag iso="gb" />
+          </li>
+          <li v-else-if="movie.original_language == 'it'">
+            Lingua: <flag iso="it" />
+          </li>
+          <li v-else-if="movie.original_language == 'cn'">
+            Lingua: <flag iso="cn" />
+          </li>
+          <li v-else-if="movie.original_language == 'ja'">
+            Lingua: <flag iso="jp" />
+          </li>
+          <li v-else-if="movie.original_language == 'es'">
+            Lingua: <flag iso="es" />
+          </li>
+          <li v-else-if="movie.original_language == 'fr'">
+            Lingua: <flag iso="fr" />
+          </li>
+          <li v-else-if="movie.original_language == 'de'">
+            Lingua: <flag iso="de" />
+          </li>
           <li v-else>Lingua: {{ movie.original_language }}</li>
           <li>Voto: {{ movie.vote_average }}</li>
+        </ul>
+      </div>
+
+      <div class="dati_series" v-for="serie in series" :key="serie.id">
+        <ul>
+          <li>Titolo Serie: {{ serie.name }}</li>
+
+          <li>Titolo originale: {{ serie.original_name }}</li>
+          <li v-if="serie.original_language == 'en'">
+            Lingua: <flag iso="gb" />
+          </li>
+          <li v-else-if="serie.original_language == 'it'">
+            Lingua: <flag iso="it" />
+          </li>
+          <li v-else-if="serie.original_language == 'cn'">
+            Lingua: <flag iso="cn" />
+          </li>
+          <li v-else-if="serie.original_language == 'ja'">
+            Lingua: <flag iso="jp" />
+          </li>
+          <li v-else-if="serie.original_language == 'es'">
+            Lingua: <flag iso="es" />
+          </li>
+          <li v-else-if="serie.original_language == 'fr'">
+            Lingua: <flag iso="fr" />
+          </li>
+          <li v-else-if="serie.original_language == 'de'">
+            Lingua: <flag iso="de" />
+          </li>
+          <li v-else>Lingua: {{ serie.original_language }}</li>
+          <li>Voto: {{ serie.vote_average }}</li>
         </ul>
       </div>
     </main>
@@ -73,23 +123,29 @@ export default {
       movie_API_final: "&page=1&include_adult=false",
       movies: null,
       series: null,
-      serie_API: "https://api.themoviedb.org/3/search/tv?api_key=feeebc687dcbe2134ac810d7cb75dafe&language=it_IT&query="
+      serie_API:
+        "https://api.themoviedb.org/3/search/tv?api_key=feeebc687dcbe2134ac810d7cb75dafe&language=it_IT&query=",
     };
   },
 
   methods: {
-    call_API() {
+    call_API_movies() {
       axios
         .get(this.movie_API_initial + this.titolo + this.movie_API_final)
         .then((response) => {
-          console.log(response.data.results);
+          //console.log(response.data.results);
           this.movies = response.data.results;
-          this.titolo = '' 
+          this.titolo = "";
         });
+    },
 
-      axios.get(this.serie_API + this.titolo).then((response) =>{
-        this.movies += response.data.results
-      })
+    call_API_series() {
+      axios
+      .get(this.serie_API + this.titolo)
+      .then((response) => {
+        console.log(response.data.results);
+        this.series = response.data.results;
+      });
     },
   },
 
