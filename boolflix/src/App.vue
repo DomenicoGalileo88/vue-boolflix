@@ -95,7 +95,7 @@ export default {};
           </li>
           <li v-else>Lingua: {{ movie.original_language }}</li>
 
-          <li v-for="(star, i) in vote[index]" :key="i"><font-awesome-icon icon="fa-solid fa-star" /></li>
+          <li v-for="(star, i) in vote[index] " :key="i"><font-awesome-icon icon="fa-solid fa-star" /></li>
         </ul>
       </div>
 
