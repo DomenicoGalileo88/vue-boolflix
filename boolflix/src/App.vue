@@ -16,14 +16,11 @@ Arrotondiamo sempre per eccesso all’unità successiva, non gestiamo icone mezz
 piene (o mezze vuote :P)*/
   
   <script>
-  export default {
-  
-  }
-  </script>
+export default {};
+</script>
   
   <style>
-  
-  </style> */
+</style> */
 
 
 
@@ -31,7 +28,7 @@ piene (o mezze vuote :P)*/
   <div id="app">
     <header>
       <div class="logo">
-        <img src="@/assets/img/logo_boolflix.png" alt="logo">
+        <img src="@/assets/img/logo_boolflix.png" alt="logo" />
       </div>
       <div class="search-film">
         <form action="">
@@ -49,13 +46,20 @@ piene (o mezze vuote :P)*/
     </header>
 
     <main>
-      <div class="dati_movies" v-for="movie in mixed" :key="movie.id">
+      <div class="dati_movies" v-for="(movie, index) in mixed" :key="movie.id">
         <ul>
-          <li><img :src="'https://image.tmdb.org/t/p/w200/' + movie.poster_path" alt="copertina"></li>
+          <li>
+            <img
+              :src="'https://image.tmdb.org/t/p/w200/' + movie.poster_path"
+              alt="copertina"
+            />
+          </li>
           <li v-if="movie.title">Titolo Film: {{ movie.title }}</li>
           <li v-else>Titolo Serie: {{ movie.name }}</li>
 
-          <li v-if="movie.original_title">Titolo originale: {{ movie.original_title }}</li>
+          <li v-if="movie.original_title">
+            Titolo originale: {{ movie.original_title }}
+          </li>
           <li v-else>Titolo originale: {{ movie.original_name }}</li>
 
           <li v-if="movie.original_language == 'en'">
@@ -84,11 +88,13 @@ piene (o mezze vuote :P)*/
           </li>
           <li v-else-if="movie.original_language == 'tr'">
             Lingua: <flag iso="tr" />
-            <li v-else-if="movie.original_language == 'pt'">
+          </li>
+
+          <li v-else-if="movie.original_language == 'pt'">
             Lingua: <flag iso="pt" />
           </li>
           <li v-else>Lingua: {{ movie.original_language }}</li>
-          <li>{{Math.ceil(movie.vote_average)}}</li>
+          <li>{{ vote[index] }}</li>
         </ul>
       </div>
 
@@ -143,8 +149,8 @@ export default {
       series: null,
       serie_API:
         "https://api.themoviedb.org/3/search/tv?api_key=feeebc687dcbe2134ac810d7cb75dafe&language=it_IT&query=",
-        mixed: null,
-        vote: null,
+      mixed: null,
+      vote: [],
     };
   },
 
@@ -156,17 +162,16 @@ export default {
       const request_film = axios.get(one);
       const request_serie = axios.get(two);
 
-      axios
-        .all([request_film, request_serie])
-        .then(axios.spread((...responses) => {
+      axios.all([request_film, request_serie]).then(
+        axios.spread((...responses) => {
           //console.log(response.data.results);
           this.movies = responses[0].data.results;
           this.series = responses[1].data.results;
-          this.mixed = this.movies.concat(this.series)
+          this.mixed = this.movies.concat(this.series);
           this.titolo = "";
-        }));
+        })
+      );
     },
-
 
     /* call_API_series() {
       axios
@@ -178,21 +183,30 @@ export default {
     }, */
   },
 
-  mounted() {
-    
-  },
+  mounted() {},
 
- /*  computed: {
-    convertNumber(){
-      this.mixed.forEach(element => {
-        let vote = element.vote_average
+  computed: {
+    starVote() {
+      this.mixed.forEach((element) => {
+        let vote = element.vote_average;
         //return console.log(Math.floor(vote));
-        let star_vote = Math.floor(vote)
-        return console.log(star_vote);
-        //return this.vote = star_vote
+        let star_vote = Math.round(Math.round(vote) / 2);
+        //return console.log(star_vote);
+        return this.vote.push(star_vote);
+        //return console.log(this.vote);
       });
-    }
-  } */
+    },
+
+    generateStar() {
+      for(let i = 0; i < this.vote[i]; i++){
+        let star = `<font-awesome-icon icon="fa-duotone fa-star" />`;
+        let starNumber = this.vote[i];
+        return console.log(starNumber);
+        
+        //return console.log(starVisualized);
+      }
+    },
+  },
 };
 </script>
 
