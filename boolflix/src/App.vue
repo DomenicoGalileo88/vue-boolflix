@@ -95,7 +95,8 @@ export default {};
           </li>
           <li v-else>Lingua: {{ movie.original_language }}</li>
 
-          <li v-for="(star, i) in vote[index] " :key="i"><font-awesome-icon icon="fa-solid fa-star" /></li>
+          <li v-for="(star, i) in vote[index] " :key="i"><font-awesome-icon icon="fa-solid fa-star" class="gold" /></li>
+          <li v-for="(star, i) in 5 - (vote[index]) " :key="i"><font-awesome-icon icon="fa-solid fa-star" class="grey" /></li>
         </ul>
       </div>
 
@@ -212,4 +213,12 @@ export default {
 
 <style lang="scss">
 @import "@/assets/scss/style.scss";
+
+.gold{
+  color: goldenrod;
+}
+
+.grey{
+  color: lightgrey;
+}
 </style>
