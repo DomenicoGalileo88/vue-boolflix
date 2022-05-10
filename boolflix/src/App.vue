@@ -38,15 +38,12 @@ export default {};
             Search Film
           </button>
 
-          <!-- <button @click.prevent="call_API_series" class="btn btn-danger ms-3">
-            Search Serie
-          </button> -->
         </form>
       </div>
     </header>
 
     <main>
-      <div class="dati_movies" v-for="(movie, index) in mixed" :key="movie.id">
+      <div class="dati_movies" v-for="movie in mixed" :key="movie.id">
         <ul>
           <li>
             <img
@@ -95,41 +92,11 @@ export default {};
           </li>
           <li v-else>Lingua: {{ movie.original_language }}</li>
 
-          <li v-for="(star, i) in vote[index] " :key="i"><font-awesome-icon icon="fa-solid fa-star" class="gold" /></li>
-          <li v-for="(star, i) in 5 - (vote[index]) " :key="i"><font-awesome-icon icon="fa-solid fa-star" class="grey" /></li>
+          <li v-for="(star, i) in Math.round(Math.round(movie.vote_average) / 2) " :key="i"><font-awesome-icon icon="fa-solid fa-star" class="gold" /></li>
+          <li v-for="(star, i) in 5 - Math.round(Math.round(movie.vote_average) / 2) " :key="i + 10"><font-awesome-icon icon="fa-solid fa-star" class="grey" /></li>
         </ul>
       </div>
 
-      <!-- <div class="dati_series" v-for="serie in series" :key="serie.id">
-        <ul>
-          <li>Titolo Serie: {{ serie.name }}</li>
-
-          <li>Titolo originale: {{ serie.original_name }}</li>
-          <li v-if="serie.original_language == 'en'">
-            Lingua: <flag iso="gb" />
-          </li>
-          <li v-else-if="serie.original_language == 'it'">
-            Lingua: <flag iso="it" />
-          </li>
-          <li v-else-if="serie.original_language == 'cn'">
-            Lingua: <flag iso="cn" />
-          </li>
-          <li v-else-if="serie.original_language == 'ja'">
-            Lingua: <flag iso="jp" />
-          </li>
-          <li v-else-if="serie.original_language == 'es'">
-            Lingua: <flag iso="es" />
-          </li>
-          <li v-else-if="serie.original_language == 'fr'">
-            Lingua: <flag iso="fr" />
-          </li>
-          <li v-else-if="serie.original_language == 'de'">
-            Lingua: <flag iso="de" />
-          </li>
-          <li v-else>Lingua: {{ serie.original_language }}</li>
-          <li>Voto: {{ serie.vote_average }}</li>
-        </ul>
-      </div> -->
     </main>
   </div>
 </template>
@@ -166,7 +133,7 @@ export default {
 
       axios.all([request_film, request_serie]).then(
         axios.spread((...responses) => {
-          //console.log(response.data.results);
+
           this.movies = responses[0].data.results;
           this.series = responses[1].data.results;
           this.mixed = this.movies.concat(this.series);
@@ -175,39 +142,10 @@ export default {
       );
     },
 
-    /* call_API_series() {
-      axios
-      .get(this.serie_API + this.titolo)
-      .then((response) => {
-        console.log(response.data.results);
-        this.series = response.data.results;
-      });
-    }, */
   },
 
   mounted() {},
 
-  computed: {
-    starVote() {
-      this.mixed.forEach((element) => {
-        let vote = element.vote_average;
-        //return console.log(Math.floor(vote));
-        let star_vote = Math.round(Math.round(vote) / 2);
-        //return console.log(star_vote);
-        return this.vote.push(star_vote);
-        //return console.log(this.vote);
-      });
-    },
-
-   /*  generateStar() {
-      let starNumber = this.vote[i];
-      for(let i = 0; i < this.vote[i]; i++){
-        let star = `<font-awesome-icon icon="fa-duotone fa-star" />`;
-        return console.log(star);
-        
-      }
-    }, */
-  },
 };
 </script>
 
