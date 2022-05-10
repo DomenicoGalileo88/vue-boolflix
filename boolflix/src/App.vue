@@ -94,7 +94,8 @@ export default {};
             Lingua: <flag iso="pt" />
           </li>
           <li v-else>Lingua: {{ movie.original_language }}</li>
-          <li>{{ vote[index] }}</li>
+
+          <li v-for="(star, i) in vote[index]" :key="i"><font-awesome-icon icon="fa-solid fa-star" /></li>
         </ul>
       </div>
 
@@ -197,15 +198,14 @@ export default {
       });
     },
 
-    generateStar() {
+   /*  generateStar() {
+      let starNumber = this.vote[i];
       for(let i = 0; i < this.vote[i]; i++){
         let star = `<font-awesome-icon icon="fa-duotone fa-star" />`;
-        let starNumber = this.vote[i];
-        return console.log(starNumber);
+        return console.log(star);
         
-        //return console.log(starVisualized);
       }
-    },
+    }, */
   },
 };
 </script>
