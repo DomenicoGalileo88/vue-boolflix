@@ -30,8 +30,6 @@ export default {
       serie_API:
         "https://api.themoviedb.org/3/search/tv?api_key=feeebc687dcbe2134ac810d7cb75dafe&language=it_IT&query=",
       mixed: null,
-      vote: [],
-      ok: false,
     };
   },
 
@@ -48,7 +46,8 @@ export default {
           this.movies = responses[0].data.results;
           this.series = responses[1].data.results;
           this.mixed = this.movies.concat(this.series);
-          this.titolo = state.titolo;
+          state.titolo = this.titolo;
+          console.log(state.titolo);
           this.titolo = "";
         })
       );

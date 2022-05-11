@@ -1,6 +1,6 @@
 <template>
   <div class="search-film">
-      <form @submit.prevent="$emit('search')">
+      <form @submit.prevent="$emit('search_bar')">
         <input
           class="mx-3"
           type="search"
@@ -16,13 +16,13 @@
 </template>
 
 <script>
+
 export default {
     name: 'SearchBar',
 
     props: {
         titolo: String,
     },
-
 }
 </script>
 

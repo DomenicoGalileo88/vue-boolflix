@@ -1,7 +1,7 @@
 <template>
   <header class="d-flex align-items-center justify-content-between p-3">
     <LogoBoolflix />
-    <SearchBar :titolo="titolo" />
+    <SearchBar :titolo="titolo" @search_bar="$emit('search')"/>
   </header>
 </template>
 
