@@ -10,6 +10,7 @@
 import axios from "axios";
 import SiteHeader from '@/components/HeaderComponent.vue';
 import SiteMain from '@/components/MainComponent.vue';
+import state from '@/state.js';
 
 export default {
   name: "App",
@@ -47,6 +48,7 @@ export default {
           this.movies = responses[0].data.results;
           this.series = responses[1].data.results;
           this.mixed = this.movies.concat(this.series);
+          this.titolo = state.titolo;
           this.titolo = "";
         })
       );
