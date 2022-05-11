@@ -1,6 +1,6 @@
 <template>
   <div class="search-film">
-      <form @submit.prevent="$emit('search_bar')">
+      <form @submit.prevent="$emit('search')">
         <input
           class="mx-3"
           type="search"
