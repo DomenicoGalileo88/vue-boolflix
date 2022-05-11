@@ -1,19 +1,12 @@
- /*Milestone 3:
-In questa milestone come prima cosa aggiungiamo la copertina del film o della serie
-al nostro elenco. Ci viene passata dall’API solo la parte finale dell’URL, questo
-perché poi potremo generare da quella porzione di URL tante dimensioni diverse.
-Dovremo prendere quindi l’URL base delle immagini di TMDB:
-https://image.tmdb.org/t/p/ per poi aggiungere la dimensione che vogliamo generare
-(troviamo tutte le dimensioni possibili a questo link:
-https://www.themoviedb.org/talk/53c11d4ec3a3684cf4006400) per poi aggiungere la
-parte finale dell’URL passata dall’API.
-Esempio di URL:
-https://image.tmdb.org/t/p/w342/wwemzKWzjKYJFfCeiB57q3r4Bcm.png
-Trasformiamo poi il voto da 1 a 10 decimale in un numero intero da 1 a 5, così da
-permetterci di stampare a schermo un numero di stelle piene che vanno da 1 a 5,
-lasciando le restanti vuote (troviamo le icone in FontAwesome).
-Arrotondiamo sempre per eccesso all’unità successiva, non gestiamo icone mezze
-piene (o mezze vuote :P)*/
+/* Milestone 4:
+Trasformiamo quello che abbiamo fatto fino ad ora in una vera e propria webapp,
+creando un layout completo simil-Netflix:
+● Un header che contiene logo e search bar
+● Dopo aver ricercato qualcosa nella searchbar, i risultati appaiono sotto forma
+di “card” in cui lo sfondo è rappresentato dall’immagine di copertina (consiglio
+la poster_path con w342)
+● Andando con il mouse sopra una card (on hover), appaiono le informazioni
+aggiuntive già prese nei punti precedenti più la overview */
   
   <script>
 export default {};
@@ -26,77 +19,118 @@ export default {};
 
 <template>
   <div id="app">
-    <header>
+    <header class="d-flex align-items-center justify-content-between p-3">
       <div class="logo">
         <img src="@/assets/img/logo_boolflix.png" alt="logo" />
       </div>
       <div class="search-film">
         <form action="">
-          <label for="">Search Film</label>
           <input class="mx-3" type="text" v-model="titolo" />
-          <button @click.prevent="call_API" class="btn btn-danger">
+          <button @click.prevent="call_API" class="btn btn_boolflix">
             Search Film
           </button>
-
         </form>
       </div>
     </header>
 
     <main>
-      <div class="dati_movies" v-for="movie in mixed" :key="movie.id">
-        <ul>
-          <li>
-            <img
-              :src="'https://image.tmdb.org/t/p/w200/' + movie.poster_path"
-              alt="copertina"
-            />
-          </li>
-          <li v-if="movie.title">Titolo Film: {{ movie.title }}</li>
-          <li v-else>Titolo Serie: {{ movie.name }}</li>
+      <div class="container dati_movies">
+        <div class="row row-cols-4 pt-4 justify-content-center">
+          <div
+            class="col text-white text-center p-3 m-3"
+            v-for="movie in mixed"
+            :key="movie.id"
+          >
+            <div class="copertina">
+              <img
+                :src="'https://image.tmdb.org/t/p/w342/' + movie.poster_path"
+                alt="copertina"
+                v-if="movie.poster_path"
+              />
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS87JUJQ0Y84tjCdxV-DeFa6AGI8DjSznToeg&usqp=CAU"
+                alt="copertina"
+                v-else
+              />
+            </div>
+            <div class="description p-2">
+              <div class="mt-4 title_movie" v-if="movie.title">
+                Titolo Film: {{ movie.title }}
+              </div>
+              <div class="title_serie" v-else>Titolo Serie: {{ movie.name }}</div>
 
-          <li v-if="movie.original_title">
-            Titolo originale: {{ movie.original_title }}
-          </li>
-          <li v-else>Titolo originale: {{ movie.original_name }}</li>
+              <div class="original_title_movie" v-if="movie.original_title">
+                Titolo originale: {{ movie.original_title }}
+              </div>
+              <div class="original_name_serie" v-else>Titolo originale: {{ movie.original_name }}</div>
 
-          <li v-if="movie.original_language == 'en'">
-            Lingua: <flag iso="gb" />
-          </li>
-          <li v-else-if="movie.original_language == 'it'">
-            Lingua: <flag iso="it" />
-          </li>
-          <li v-else-if="movie.original_language == 'cn'">
-            Lingua: <flag iso="cn" />
-          </li>
-          <li v-else-if="movie.original_language == 'ja'">
-            Lingua: <flag iso="jp" />
-          </li>
-          <li v-else-if="movie.original_language == 'es'">
-            Lingua: <flag iso="es" />
-          </li>
-          <li v-else-if="movie.original_language == 'fr'">
-            Lingua: <flag iso="fr" />
-          </li>
-          <li v-else-if="movie.original_language == 'de'">
-            Lingua: <flag iso="de" />
-          </li>
-          <li v-else-if="movie.original_language == 'sv'">
-            Lingua: <flag iso="sv" />
-          </li>
-          <li v-else-if="movie.original_language == 'tr'">
-            Lingua: <flag iso="tr" />
-          </li>
+              <div class="language">
+                <div v-if="movie.original_language == 'en'">
+                  Lingua: <flag iso="gb" />
+                </div>
+                <div v-else-if="movie.original_language == 'it'">
+                  Lingua: <flag iso="it" />
+                </div>
+                <div v-else-if="movie.original_language == 'cn'">
+                  Lingua: <flag iso="cn" />
+                </div>
+                <div v-else-if="movie.original_language == 'ja'">
+                  Lingua: <flag iso="jp" />
+                </div>
+                <div v-else-if="movie.original_language == 'es'">
+                  Lingua: <flag iso="es" />
+                </div>
+                <div v-else-if="movie.original_language == 'fr'">
+                  Lingua: <flag iso="fr" />
+                </div>
+                <div v-else-if="movie.original_language == 'de'">
+                  Lingua: <flag iso="de" />
+                </div>
+                <div v-else-if="movie.original_language == 'sv'">
+                  Lingua: <flag iso="sv" />
+                </div>
+                <div v-else-if="movie.original_language == 'tr'">
+                  Lingua: <flag iso="tr" />
+                </div>
 
-          <li v-else-if="movie.original_language == 'pt'">
-            Lingua: <flag iso="pt" />
-          </li>
-          <li v-else>Lingua: {{ movie.original_language }}</li>
+                <div v-else-if="movie.original_language == 'pt'">
+                  Lingua: <flag iso="pt" />
+                </div>
 
-          <li v-for="(star, i) in Math.round(Math.round(movie.vote_average) / 2) " :key="i"><font-awesome-icon icon="fa-solid fa-star" class="gold" /></li>
-          <li v-for="(star, i) in 5 - Math.round(Math.round(movie.vote_average) / 2) " :key="i + 10"><font-awesome-icon icon="fa-solid fa-star" class="grey" /></li>
-        </ul>
+                <div v-else-if="movie.original_language == 'pl'">
+                  Lingua: <flag iso="pl" />
+                </div>
+
+                <div v-else>Lingua: {{ movie.original_language }}</div>
+              </div>
+              <!-- /.language -->
+
+              <div class="star">
+                <span>Voto: </span>
+                <span
+                  v-for="(star, i) in Math.round(
+                    Math.round(movie.vote_average) / 2
+                  )"
+                  :key="i"
+                  ><font-awesome-icon icon="fa-solid fa-star" class="gold"
+                /></span>
+                <span
+                  v-for="(star, i) in 5 -
+                  Math.round(Math.round(movie.vote_average) / 2)"
+                  :key="i + 10"
+                  ><font-awesome-icon icon="fa-solid fa-star" class="grey"
+                /></span>
+              </div>
+              <!-- /.star -->
+
+              <div v-if="movie.overview" class="overview p-2">Overview: {{movie.overview}}</div>
+            </div>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
       </div>
-
+      <!-- /.dati_movies -->
     </main>
   </div>
 </template>
@@ -120,6 +154,7 @@ export default {
         "https://api.themoviedb.org/3/search/tv?api_key=feeebc687dcbe2134ac810d7cb75dafe&language=it_IT&query=",
       mixed: null,
       vote: [],
+      ok: false,
     };
   },
 
@@ -133,7 +168,6 @@ export default {
 
       axios.all([request_film, request_serie]).then(
         axios.spread((...responses) => {
-
           this.movies = responses[0].data.results;
           this.series = responses[1].data.results;
           this.mixed = this.movies.concat(this.series);
@@ -141,22 +175,60 @@ export default {
         })
       );
     },
-
   },
 
   mounted() {},
-
 };
 </script>
 
 <style lang="scss">
 @import "@/assets/scss/style.scss";
 
-.gold{
-  color: goldenrod;
+header {
+  border-bottom: 1px solid #dc1a2766;
+  .btn_boolflix {
+    background-color: #dc1a28;
+    font-weight: 600;
+  }
 }
 
-.grey{
-  color: lightgrey;
+main {
+  div{
+    font-size: 0.8rem;
+  }
+  .col {
+    box-shadow: 0px 0px 12px 3px #dc1a28;
+    position: relative;
+    &:hover .description {
+      display: block;
+      transition: all 5s;
+    }
+
+    .description {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(21, 0, 0, 0.80);
+      
+      .overview{
+        font-size: 0.6rem;
+      }
+    }
+
+    img {
+      width: 290px;
+      height: 420px;
+    }
+    .gold {
+      color: goldenrod;
+    }
+
+    .grey {
+      color: lightgrey;
+    }
+  }
 }
 </style>
