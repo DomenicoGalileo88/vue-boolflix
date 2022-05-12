@@ -1,8 +1,7 @@
 import Vue from "vue";
 
 const state = Vue.observable({
-  titolo: "",
-  mixed:null,
+  mixed: null,
 });
 
 export default state;
