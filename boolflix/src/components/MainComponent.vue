@@ -105,9 +105,10 @@
 </template>
 
 <script>
+/* export component */
 export default {
   name: "SiteMain",
-
+/* Passo attraverso la props l'array mixed che contiene le serie tv e i film selezionati attraverso la search bar. (L'array mixed si trova fisicamente in header component, perchè è li che vengono fatte le chiamate Api con axios, ma noi ci rivolgiamo ad app.vue componente, perchè è li che importiamo lo state, dove dentro abbiamo salvato i dati dell'array mixed) */
   props: 
       ['mixed']
   
