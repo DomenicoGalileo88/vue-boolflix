@@ -109,22 +109,18 @@
 /* export component */
 export default {
   name: "SiteMain",
-/* Passo attraverso la props l'array mixed che contiene le serie tv e i film selezionati attraverso la search bar. (L'array mixed si trova fisicamente in header component, perchè è li che vengono fatte le chiamate Api con axios, ma noi ci rivolgiamo ad app.vue componente, perchè è li che importiamo lo state, dove dentro abbiamo salvato i dati dell'array mixed) */
-  props: 
-      ['mixed'],
+  /* Passo attraverso la props l'array mixed che contiene le serie tv e i film selezionati attraverso la search bar. (L'array mixed si trova fisicamente in header component, perchè è li che vengono fatte le chiamate Api con axios, ma noi ci rivolgiamo ad app.vue componente, perchè è li che importiamo lo state, dove dentro abbiamo salvato i dati dell'array mixed) */
+  props: ["mixed"],
 
-      /* oppure lo possiamo fare con lo state */
+  /* oppure lo possiamo fare con lo state */
 
- /*  computed :{
+  /*  computed :{
    mixed(){
      return state.mixed
    }
  } */
-     /* attraverso questo metodo, ritorniamo con state.mixed i dati relativi all'array mixed dichiarato in header componente */
-  
+  /* attraverso questo metodo, ritorniamo con state.mixed i dati relativi all'array mixed dichiarato in header componente */
 };
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -138,6 +134,7 @@ main {
     cursor: pointer;
     &:hover .description {
       display: block;
+      
     }
 
     .description {
@@ -148,6 +145,19 @@ main {
       width: 100%;
       height: 100%;
       background-color: rgba(21, 0, 0, 0.8);
+      animation: scale 1.2s linear;
+
+      @keyframes scale {
+        0% {
+          transform: scale(0);
+        }
+        50% {
+          transform: scale(1);
+        }
+        100%{
+          transform: scale(1);
+        }
+      }
 
       .overview {
         font-size: 0.6rem;
